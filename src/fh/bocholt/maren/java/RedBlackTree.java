@@ -72,6 +72,8 @@ public class RedBlackTree {
         parent.setLeftNode(grandParent);
         grandParent.setRightNode(null);
 
+        setGrandGrandParent(grandParent, parent);
+
         //Regel 2
         //Parent muss schwarz gefärbt werden
         parent.setColor(Color.BLACK);
@@ -79,10 +81,22 @@ public class RedBlackTree {
         grandParent.setColor(Color.RED);
     }
 
+    private void setGrandGrandParent(Node grandParent, Node parent) {
+        Node grandgrandParent = grandParent.getParent();
+        if(isChildrenRightNode(grandParent, grandgrandParent)){
+            grandgrandParent.setRightNode(parent);
+        }
+        if(isChildrenLeftNode(grandParent, grandgrandParent)){
+            grandgrandParent.setLeftNode(parent);
+        }
+    }
+
     private void rotateRigthGrandparent(Node children, Node parent, Node grandParent) {
         //Parent und Grandparent tauschen die Plätze
         parent.setRightNode(grandParent);
         grandParent.setLeftNode(null);
+
+        setGrandGrandParent(grandParent, parent);
 
         //Regel 2
         //Parent muss schwarz gefärbt werden
@@ -94,14 +108,29 @@ public class RedBlackTree {
 
     private void rotateRigth(Node children, Node parent, Node grandParent) {
 
-        grandParent.setRightNode(children);
+        setGrandGrandParent(grandParent, children);
+
+        children.setColor(Color.BLACK);
+        parent.setColor(Color.RED);
+        grandParent.setColor(Color.RED);
+
+        children.setLeftNode(grandParent);
         children.setRightNode(parent);
+
+        parent.setRightNode(null);
     }
 
     private void rotateLeft(Node children, Node parent, Node grandParent) {
+        setGrandGrandParent(grandParent, children);
 
-        grandParent.setLeftNode(children);
+        children.setColor(Color.BLACK);
+        parent.setColor(Color.RED);
+        grandParent.setColor(Color.RED);
+
+        children.setRightNode(grandParent);
         children.setLeftNode(parent);
+
+        parent.setLeftNode(null);
     }
 
     private boolean isChildrenLeftNode(Node children, Node parent) {
@@ -140,7 +169,7 @@ public class RedBlackTree {
                     positionFound = true;
                 }
                 else {
-                    return findPositionForNewNode(children, parent.getLeftNode(), positionFound);
+                    positionFound = findPositionForNewNode(children, parent.getLeftNode(), positionFound);
                 }
             }
             else if(children.getValue() > parent.getValue()){
@@ -153,24 +182,10 @@ public class RedBlackTree {
                     positionFound = true;
                 }
                 else {
-                    return findPositionForNewNode(children, parent.getRightNode(), positionFound);
+                    positionFound = findPositionForNewNode(children, parent.getRightNode(), positionFound);
                 }
             }
         }
         return positionFound;
     }
-
-
-    private int getSizeOfChildrenNodes(Node node, int counter){
-
-        if(node.getLeftNode() != null){
-            counter = counter + getSizeOfChildrenNodes(node.getLeftNode(), counter);
-        }
-        if(node.getRightNode() != null){
-            counter = counter + getSizeOfChildrenNodes(node.getRightNode(), counter);
-        }
-
-        return counter;
-    }
-
 }
