@@ -3,7 +3,7 @@ package fh.bocholt.maren.java;
 /**
  * Created by Maren on 08.04.15.
  */
-public class Node implements Comparable {
+public class Node {
 
     private Node rightNode;
     private Node leftNode;
@@ -59,22 +59,12 @@ public class Node implements Comparable {
         this.parent = parent;
     }
 
-    public boolean isBalanced(){
-        if(rightNode != null){
-            if(rightNode.getRightNode() != null && rightNode.getLeftNode() == null){
-                return false;
-            }
-        }
-        if(leftNode != null){
-            if(leftNode.getLeftNode() != null && leftNode.getRightNode() == null){
-                return false;
-            }
-        }
-        return true;
-    }
-
     @Override
-    public int compareTo(Object o) {
-        return 0;
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        Node other = (Node) obj;
+        return ((this.value == other.value) && (this.color == other.color));
     }
 }
