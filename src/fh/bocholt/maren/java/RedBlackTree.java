@@ -28,6 +28,28 @@ public class RedBlackTree {
         }
     }
 
+    /**
+     * Gibt den Knoten mit dem entsprechenden Value zurück
+     * @param value
+     * @return
+     */
+    public Node search(int value){
+        return getNodeByValue(rootNode, value);
+    }
+
+    private Node getNodeByValue(Node node, int value) {
+        if(value == node.getValue()){
+            return node;
+        }
+        else if(value < node.getValue()){
+            return getNodeByValue(node.getLeftNode(), value);
+        }
+        else if(value > node.getValue()){
+            return getNodeByValue(node.getRightNode(), value);
+        }
+        return null;
+    }
+
     private void validateTree(Node children, Node parent) {
         if(parent.getColor() == Color.BLACK){
             return;

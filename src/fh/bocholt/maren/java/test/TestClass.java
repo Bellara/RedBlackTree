@@ -1,5 +1,6 @@
 package fh.bocholt.maren.java.test;
 
+import fh.bocholt.maren.java.Node;
 import fh.bocholt.maren.java.RedBlackTree;
 
 /**
@@ -17,6 +18,8 @@ public class TestClass {
         redBlackTree.newNode(46);
         redBlackTree.newNode(48);
         redBlackTree.newNode(47);
+
+        Node node46 = redBlackTree.search(46);
     }
 
 }
